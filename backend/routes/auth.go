@@ -108,7 +108,11 @@ func getUserData(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": userData})
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "User data retrieved successfully",
+		"data":    userData,
+	})
 }
 
 func getAuthLoginFunction(c *gin.Context) {
@@ -126,5 +130,4 @@ func Auth(r *gin.Engine) {
 	r.GET("/logout/:provider", getAuthLogoutFunction)
 	r.GET("/me", getUserData)
 	r.GET("/auth/:provider", getAuthLoginFunction)
-
 }
