@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black flex justify-center items-center w-screen h-screen overflow-hidden`}>
-        <div className="w-sm h-screen bg-white overflow-y-auto shadow-lg">
+        <div className="w-sm h-screen bg-[#1E1E1E] overflow-y-auto shadow-lg">
           <Providers>{children}</Providers>
         </div>
       </body>
