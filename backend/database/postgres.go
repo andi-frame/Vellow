@@ -29,7 +29,8 @@ func InitDB() {
 
 	err = models.MigrateUser(DB)
 	if err != nil {
-		log.Fatal("Failed to auto migrate database", err)
+		log.Fatal("Failed to auto migrate user", err)
 	}
+
 	fmt.Println("Database migrated!")
 }
