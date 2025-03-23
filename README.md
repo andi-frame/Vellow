@@ -2,6 +2,15 @@
 
 **Vellow** adalah platform yang dirancang untuk mendorong aktivitas **lari** melalui **leaderboard kompetitif, tantangan berbasis performa, dan sistem battle antar pengguna**. Dengan integrasi ke **Strava**, pengguna dapat menghubungkan akun mereka untuk melacak statistik lari mereka secara otomatis.
 
+## Nama Tim
+Pelan2 semester 4
+Anggota:
+Andi Farhan Hidayat
+Muhammad Raihaan Perdana
+Nathanael Rachmat
+Bagas Noor Fadhillah
+Samantha Laquenna Ginting
+
 ## How To Run
 Front-End
 - cd frontend/
@@ -33,3 +42,5 @@ Back-End
 ### ☁️ **Online Database**  
 - Data pengguna, aktivitas, leaderboard, dan battle disimpan secara real-time di database **PostgreSQL (Supabase)**.  
 - Update leaderboard dilakukan secara otomatis berdasarkan **data terbaru dari aktivitas di dalam Vellow dan Strava**
+## Link Video Demo
+https://drive.google.com/drive/folders/1Dar2iRJqpp7e-yAf-uDKCBueIWBx5II8?hl=ID 
