@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -9,111 +9,39 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
-
-type PlayerData = {
-  rank: number;
-  name: string;
-  score: number;
-  tier?: string; 
-};
-
-const leaderboardData: {
-  location: Record<string, PlayerData[]>;
-  tier: Record<string, PlayerData[]>;
-  clan: Record<string, PlayerData[]>;
-} = {
-  location: {
-    province: [
-      { rank: 1, name: "Andi Farhan", score: 3500, tier: "Ruby" },
-      { rank: 2, name: "Raihaan", score: 2773, tier: "Diamond" },
-    ],
-    national: [
-      { rank: 1, name: "Andi Farhan", score: 3500, tier: "Ruby" },
-      { rank: 2, name: "Nathanael", score: 3328, tier: "Ruby" },
-      { rank: 3, name: "Raihaan", score: 2773, tier: "Diamond" },
-    ],
-    worldwide: [
-      { rank: 1, name: "Global Player", score: 5000, tier: "Ruby" },
-      { rank: 2, name: "Nathanael", score: 3328, tier: "Ruby" },
-    ],
-  },
-  tier: {
-    Ruby: [
-      { rank: 1, name: "Rafael", score: 1558, tier: "Ruby" },
-      { rank: 2, name: "Nathanael", score: 3328, tier: "Ruby" },
-    ],
-    Diamond: [
-      { rank: 1, name: "Raihaan", score: 2773, tier: "Diamond" },
-      { rank: 2, name: "Naufarrel", score: 2555, tier: "Diamond" },
-      { rank: 3, name: "A. Syafiq", score: 2029, tier: "Diamond" },
-    ],
-    Gold: [
-      { rank: 1, name: "Rafael", score: 1558, tier: "Gold" },
-      { rank: 2, name: "You", score: 1201, tier: "Gold" },
-      { rank: 3, name: "Lana G", score: 1112, tier: "Gold" },
-      { rank: 4, name: "Dinda", score: 990, tier: "Gold" },
-      { rank: 5, name: "Name 5", score: 874, tier: "Gold" },
-      { rank: 6, name: "Name 6", score: 865, tier: "Gold" },
-      { rank: 7, name: "Name 7", score: 831, tier: "Gold" },
-      { rank: 8, name: "Name 8", score: 809, tier: "Gold" },
-    ],
-    Silver: [
-      { rank: 1, name: "Alex", score: 900, tier: "Silver" },
-      { rank: 2, name: "Bella", score: 850, tier: "Silver" },
-    ],
-    Bronze: [
-      { rank: 1, name: "Charlie", score: 700, tier: "Bronze" },
-      { rank: 2, name: "Diana", score: 650, tier: "Bronze" },
-    ],
-    Iron: [
-      { rank: 1, name: "Evan", score: 500, tier: "Iron" },
-      { rank: 2, name: "Fiona", score: 450, tier: "Iron" },
-    ],
-    Newbie: [
-      { rank: 1, name: "Gabriel", score: 200, tier: "Newbie" },
-      { rank: 2, name: "Hannah", score: 150, tier: "Newbie" },
-    ],
-  },
-  clan: {
-    province: [
-      { rank: 1, name: "Clan Name 1", score: 3500 },
-      { rank: 2, name: "Clan Name 2", score: 3328 },
-      { rank: 3, name: "Clan Name 3", score: 2773 },
-      { rank: 4, name: "Clan Name 4", score: 2555 },
-      { rank: 5, name: "Clan Name 5", score: 2029 },
-      { rank: 6, name: "Clan Name 6", score: 1558 },
-      { rank: 7, name: "Your Clan", score: 1201 },
-      { rank: 8, name: "Clan Name 8", score: 1112 },
-    ],
-    national: [
-      { rank: 1, name: "Clan X", score: 20000 },
-      { rank: 2, name: "Clan Y", score: 18000 },
-    ],
-    worldwide: [
-      { rank: 1, name: "Global Clan", score: 30000 },
-      { rank: 2, name: "International Clan", score: 25000 },
-    ],
-  },
-};
+import { fetchLeaderboard, LeaderboardEntry } from "@/services/leaderboardService";
 
 export default function Leaderboard() {
-  const [selectedCategory, setSelectedCategory] = useState<"location" | "tier" | "clan">("location");
+  const [selectedCategory, setSelectedCategory] = useState<"location" | "tier">("location");
   const [selectedSubCategory, setSelectedSubCategory] = useState<"province" | "national" | "worldwide" | "Ruby" | "Diamond" | "Gold" | "Silver" | "Bronze" | "Iron" | "Newbie">("national");
   const [searchQuery, setSearchQuery] = useState("");
-  
-  const getData = (): PlayerData[] => {
-    if (selectedCategory === "tier") {
-      return leaderboardData.tier[selectedSubCategory as keyof typeof leaderboardData.tier] || [];
-    } else if (selectedCategory === "location") {
-      return leaderboardData.location[selectedSubCategory as keyof typeof leaderboardData.location] || [];
-    } else {
-      return leaderboardData.clan[selectedSubCategory as keyof typeof leaderboardData.clan] || [];
-    }
-  };
-  
-  const filteredData = getData().filter(item => 
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const [data, setData] = useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch leaderboard data whenever category, subcategory, or search query changes
+  useEffect(() => {
+    const getLeaderboardData = async () => {
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const leaderboardData = await fetchLeaderboard(
+          selectedCategory, 
+          selectedSubCategory, 
+          searchQuery
+        );
+        setData(leaderboardData);
+      } catch (err) {
+        setError("Failed to load leaderboard data");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getLeaderboardData();
+  }, [selectedCategory, selectedSubCategory, searchQuery]);
   
   const handleTierChange = (value: string) => {
     setSelectedSubCategory(value as any);
@@ -153,14 +81,14 @@ export default function Leaderboard() {
       {/* Tabs */}
       <div className="flex justify-center mb-4">
         <div className="flex bg-gray-800 rounded-full p-1 w-full">
-          {["location", "tier", "clan"].map((category) => (
+          {["location", "tier"].map((category) => (
             <button
               key={category}
               className={`flex-1 py-2 px-4 rounded-full text-center transition-colors duration-200 ${
                 selectedCategory === category ? "bg-white text-black font-semibold" : "text-gray-300"
               }`}
               onClick={() => {
-                setSelectedCategory(category as "location" | "tier" | "clan");
+                setSelectedCategory(category as "location" | "tier");
                 setSelectedSubCategory(category === "tier" ? "Gold" : "national");
               }}
             >
@@ -186,14 +114,14 @@ export default function Leaderboard() {
         </div>
       </div>
   
-      {/* Sub-tabs (location, clan) */}
-      {selectedCategory !== "tier" && (
+      {/* Location sub-tabs */}
+      {selectedCategory === "location" && (
         <div className="flex justify-center mb-4 space-x-2">
           <div className="flex bg-gray-800 rounded-full p-1 w-full">
             {["province", "national", "worldwide"].map((subCategory) => (
               <button
                 key={subCategory}
-                className={`py-1 px-4 rounded-full text-center transition-colors duration-200 ${
+                className={`flex-1 py-1 px-4 rounded-full text-center transition-colors duration-200 ${
                   selectedSubCategory === subCategory ? "bg-white text-black font-semibold" : "text-gray-300"
                 }`}
                 onClick={() => setSelectedSubCategory(subCategory as "province" | "national" | "worldwide")}
@@ -234,10 +162,17 @@ export default function Leaderboard() {
         </div>
       )}
   
-      {/* Leaderboard List */}
       <div className="w-full max-w-[375px] mx-auto space-y-2 px-2">
-        {filteredData.length > 0 ? (
-          filteredData.map((player) => (
+        {loading ? (
+          <div className="text-center py-6">
+            <p>Loading leaderboard data...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-6 text-red-400">
+            <p>{error}</p>
+          </div>
+        ) : data && data.length > 0 ? (
+          data.map((player) => (
             <div
               key={player.rank}
               className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm ${
@@ -249,7 +184,7 @@ export default function Leaderboard() {
               <div className="flex items-center gap-2">
                 <span className="font-medium">#{player.rank}</span>
                 <div className="w-6 h-6 bg-white text-black rounded-full flex items-center justify-center text-xs font-medium">
-                  {selectedCategory === "clan" ? "👥" : "👤"}
+                  👤
                 </div>
                 <span className="text-sm">{player.name}</span>
               </div>
