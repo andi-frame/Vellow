@@ -134,7 +134,7 @@ func getAuthCallbackStrava(c *gin.Context) {
 	fmt.Println(string(updatedUserJSON))
 
 	// Redirect after successful authentication
-	c.Redirect(http.StatusFound, "http://localhost:3000/")
+	c.Redirect(http.StatusFound, "http://localhost:3000/battle")
 }
 
 // Logout
@@ -215,7 +215,6 @@ func getAuthLoginStrava(c *gin.Context) {
 
 // Strava Deauthorization API
 func deauthorizeStrava(accessToken string) error {
-	fmt.Println("Tes 3")
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", "https://www.strava.com/oauth/deauthorize", nil)
 	if err != nil {

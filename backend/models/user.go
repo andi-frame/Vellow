@@ -34,6 +34,9 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 }
 
 func MigrateUser(DB *gorm.DB) error {
+	if DB.Migrator().HasTable(&User{}) {
+		return nil
+	}
 	return DB.AutoMigrate(&User{})
 }
 
