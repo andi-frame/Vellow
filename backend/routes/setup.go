@@ -21,6 +21,7 @@ func SetupRouter() *gin.Engine {
 	// Public routes
 	// Public func routes
 	Auth(r)
+	Leaderboard(r)
 
 	// Protected routes
 	// protected := r.Group("/api")

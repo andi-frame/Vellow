@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from 'react';
@@ -25,7 +26,7 @@ const Footer = () => {
                     <div className="absolute -z-10 w-12 h-12 bg-[#8A4FCC] rounded-full opacity-70 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                 )}
                 <Link href="/leaderboard" className={getItemStyle("/leaderboard")}>
-                    <img src="/trophy.svg" alt="Trophy Icon" className="w-5 h-5" />
+                    <Image src="/trophy.svg" alt="Trophy Icon" className="w-5 h-5" />
                     {isActive("/leaderboard")}
                 </Link>
             </div>
@@ -35,7 +36,7 @@ const Footer = () => {
                     <div className="absolute -z-10 w-12 h-12 bg-[#8A4FCC] rounded-full opacity-70 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                 )}
                 <Link href="/battle" className={getItemStyle("/battle")}>
-                    <img src="/battle.svg" alt="Battle Icon" className="w-5 h-5" />
+                    <Image src="/battle.svg" alt="Battle Icon" className="w-5 h-5" />
                     <span className="text-sm text-purple-950">vs</span>
                 </Link>
             </div>
@@ -45,7 +46,7 @@ const Footer = () => {
                     <div className="absolute -z-10 w-12 h-12 bg-[#8A4FCC] rounded-full opacity-70 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                 )}
                 <Link href="/clan" className={getItemStyle("/clan")}>
-                    <img src="/guard.svg" alt="Clan Icon" className="w-5 h-5" />
+                    <Image src="/guard.svg" alt="Clan Icon" className="w-5 h-5" />
                     {isActive("/clan")}
                 </Link>
             </div>
