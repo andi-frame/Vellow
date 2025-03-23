@@ -32,5 +32,30 @@ func InitDB() {
 		log.Fatal("Failed to auto migrate user", err)
 	}
 
+	err = models.MigrateVellowBattle(DB)
+	if err != nil {
+		log.Fatal("Failed to auto migrate vellow battle", err)
+	}
+
+	err = models.MigrateVellowBattleStats(DB)
+	if err != nil {
+		log.Fatal("Failed to auto migrate vellow battle statistics", err)
+	}
+
+	err = models.MigrateSessionHistory(DB)
+	if err != nil {
+		log.Fatal("Failed to auto migrate session history", err)
+	}
+
+	err = models.MigrateClan(DB)
+	if err != nil {
+		log.Fatal("Failed to auto migrate clan", err)
+	}
+
+	err = models.MigrateProfileStatistics(DB)
+	if err != nil {
+		log.Fatal("Failed to auto migrate profile statistics", err)
+	}
+
 	fmt.Println("Database migrated!")
 }
