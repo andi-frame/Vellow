@@ -48,5 +48,8 @@ func (v *VellowBattle) BeforeCreate(tx *gorm.DB) (err error) {
 
 // Migrate function
 func MigrateVellowBattle(DB *gorm.DB) error {
+	if DB.Migrator().HasTable(&VellowBattle{}) {
+		return nil
+	}
 	return DB.AutoMigrate(&VellowBattle{})
 }

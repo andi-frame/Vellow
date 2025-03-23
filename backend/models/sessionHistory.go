@@ -29,5 +29,8 @@ func (s *SessionHistory) BeforeCreate(tx *gorm.DB) (err error) {
 
 // Migrate function
 func MigrateSessionHistory(DB *gorm.DB) error {
+	if DB.Migrator().HasTable(&SessionHistory{}) {
+		return nil
+	}
 	return DB.AutoMigrate(&SessionHistory{})
 }

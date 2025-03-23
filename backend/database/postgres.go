@@ -57,5 +57,10 @@ func InitDB() {
 		log.Fatal("Failed to auto migrate profile statistics", err)
 	}
 
+	err = models.MigrateMatchmaking(DB)
+	if err != nil {
+		log.Fatal("Failed to auto migrate matchmaking", err)
+	}
+
 	fmt.Println("Database migrated!")
 }

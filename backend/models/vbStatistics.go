@@ -28,5 +28,8 @@ func (v *VBStatistics) BeforeCreate(tx *gorm.DB) (err error) {
 
 // Migrate function
 func MigrateVellowBattleStats(DB *gorm.DB) error {
+	if DB.Migrator().HasTable(&VBStatistics{}) {
+		return nil
+	}
 	return DB.AutoMigrate(&VBStatistics{})
 }

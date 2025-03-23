@@ -28,5 +28,8 @@ func (c *Clan) BeforeCreate(tx *gorm.DB) (err error) {
 
 // Migrate function
 func MigrateClan(DB *gorm.DB) error {
+	if DB.Migrator().HasTable(&Clan{}) {
+		return nil
+	}
 	return DB.AutoMigrate(&Clan{})
 }

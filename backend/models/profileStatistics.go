@@ -28,5 +28,8 @@ func (p *ProfileStatistics) BeforeCreate(tx *gorm.DB) (err error) {
 
 // Migrate function
 func MigrateProfileStatistics(DB *gorm.DB) error {
+	if DB.Migrator().HasTable(&ProfileStatistics{}) {
+		return nil
+	}
 	return DB.AutoMigrate(&ProfileStatistics{})
 }
