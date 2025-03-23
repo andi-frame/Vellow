@@ -10,6 +10,7 @@ import (
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/google"
+	"github.com/markbates/goth/providers/strava"
 )
 
 const (
@@ -26,6 +27,8 @@ func NewAuth() {
 
 	gogleClientID := os.Getenv("GOOGLE_CLIENT_ID")
 	googleClienSecret := os.Getenv("GOOGLE_CLIENT_SECRET")
+	stravaClientID := os.Getenv("STRAVA_CLIENT_ID")
+	stravaClientSecret := os.Getenv("STRAVA_CLIENT_SECRET")
 
 	store := sessions.NewCookieStore([]byte(key))
 	store.MaxAge(MaxAge)
@@ -42,5 +45,6 @@ func NewAuth() {
 	gothic.Store = store
 	goth.UseProviders(
 		google.New(gogleClientID, googleClienSecret, "http://localhost:8080/auth/google/callback"),
+		strava.New(stravaClientID, stravaClientSecret, "http://localhost:8080/auth/strava/callback"),
 	)
 }

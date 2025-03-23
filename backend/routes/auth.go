@@ -244,7 +244,7 @@ func deauthorizeStrava(accessToken string) error {
 	return nil
 }
 
-func AuthGoogle(r *gin.Engine) {
+func Auth(r *gin.Engine) {
 	r.GET("/auth/google/callback", getAuthCallbackGoogle)
 	r.GET("/auth/strava/callback", getAuthCallbackStrava)
 	r.GET("/logout/:provider", getAuthLogout)
