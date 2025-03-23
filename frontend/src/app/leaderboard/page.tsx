@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
 import { fetchLeaderboard, LeaderboardEntry } from "@/services/leaderboardService";
+import Image from "next/image";
 
 export default function Leaderboard() {
   const [selectedCategory, setSelectedCategory] = useState<"location" | "tier">("location");
@@ -44,21 +45,7 @@ export default function Leaderboard() {
   }, [selectedCategory, selectedSubCategory, searchQuery]);
   
   const handleTierChange = (value: string) => {
-    setSelectedSubCategory(value as any);
-  };
-
-  // Get tier colors
-  const getTierColor = (tier: string) => {
-    switch (tier) {
-      case "Ruby": return "text-red-400";
-      case "Diamond": return "text-blue-300";
-      case "Gold": return "text-yellow-300";
-      case "Silver": return "text-gray-300";
-      case "Bronze": return "text-amber-600";
-      case "Iron": return "text-gray-500";
-      case "Newbie": return "text-green-400";
-      default: return "text-white";
-    }
+    setSelectedSubCategory(value as "province" | "national" | "worldwide" | "Ruby" | "Diamond" | "Gold" | "Silver" | "Bronze" | "Iron" | "Newbie");
   };
 
   const getTierIconPath = (tier: string) => {
@@ -146,7 +133,7 @@ export default function Leaderboard() {
                   <SelectItem key={tier} value={tier} className="focus:bg-gray-200">
                     <div className="flex items-center">
                       <span className="mr-2">
-                        <img 
+                        <Image 
                           src={getTierIconPath(tier)} 
                           alt={`${tier} icon`} 
                           className="w-5 h-5 object-contain"
@@ -189,12 +176,12 @@ export default function Leaderboard() {
                 <span className="text-sm">{player.name}</span>
               </div>
               <div className="flex items-center text-sm">
-                <img src="/star.svg" alt="score icon" className="w-4 h-4 mr-1" />
+                <Image src="/star.svg" alt="score icon" className="w-4 h-4 mr-1" />
                 <span className="font-semibold">{player.score}</span>
               
                 {player.tier && (
                   <div className="ml-2 flex items-center">
-                    <img
+                    <Image
                       src={getTierIconPath(player.tier)}
                       alt={`${player.tier} icon`}
                       className="w-4 h-4 object-contain"
