@@ -13,7 +13,8 @@ import (
 
 func main() {
 	Auth.NewAuth()
-	database.InitDB()
+	// database.InitDB()
+	database.ResetAndMigrateDB()
 
 	gin.SetMode(gin.DebugMode)
 
