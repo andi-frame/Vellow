@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 
-const GpxMap = dynamic(() => import("../../../components/map/viewMap"), {
+const GpxMap = dynamic(() => import("../../components/viewMap"), {
   ssr: false,
 });
 
@@ -23,10 +23,10 @@ const Page = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen">
       <h1>Upload GPX File</h1>
       <input type="file" accept=".gpx" onChange={handleFileUpload} />
-      <div style={{ height: "500px", marginTop: "1rem" }}>
+      <div className="h-10/12">
         {gpxData ? (
           <GpxMap gpxData={gpxData} />
         ) : (
