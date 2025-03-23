@@ -28,4 +28,8 @@ Back-End
 - Perbandingan performa berdasarkan **kecepatan, jarak tempuh, dan elevasi**.  
 
 ### 👤 **Profile (Preview)**  
-- Pengguna dapat melihat data profil mereka berdasarkan **aktivitas terbaru di Strava**.  
+- Pengguna dapat melihat data profil mereka berdasarkan **aktivitas terbaru di Strava**.
+  
+### ☁️ **Online Database**  
+- Data pengguna, aktivitas, leaderboard, dan battle disimpan secara real-time di database **PostgreSQL (Supabase)**.  
+- Update leaderboard dilakukan secara otomatis berdasarkan **data terbaru dari aktivitas di dalam Vellow dan Strava**
