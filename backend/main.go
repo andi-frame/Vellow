@@ -1,7 +1,33 @@
 package main
 
-import "fmt"
+import (
+	// "github.com/andi-frame/Vellow/backend/database"
+	"log"
+	"os"
+
+	"github.com/andi-frame/Vellow/backend/database"
+	"github.com/andi-frame/Vellow/backend/routes"
+	Auth "github.com/andi-frame/Vellow/backend/services/auth"
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	Auth.NewAuth()
+	// database.InitDB()
+	database.ResetAndMigrateDB()
+
+	gin.SetMode(gin.DebugMode)
+
+	r := routes.SetupRouter()
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	// Start server
+	log.Printf("Server running on port %s", port)
+	if err := r.Run(":" + port); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 }
